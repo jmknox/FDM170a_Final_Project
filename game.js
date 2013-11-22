@@ -13,10 +13,12 @@ var createEngine = require('voxel-engine')
 
 //then you call the engine with the options you want to use
 var game = createEngine({
-	texturePath: 'textures/',
 	generateChunks: false,
+	chunkDistance: 2,
+	texturePath: 'textures/',
 	playerSkin: 'textures/viking.png',
-	//materials: [ 'grass_top', 'tree_side', 'leaves_opaque' ]
+	materials: [ 'grass_top', 'tree_side', 'leaves_opaque' ],
+	lightsDisabled: true,
 })
 game.appendTo(document.body)
 
@@ -71,8 +73,19 @@ game.on('fire', function (target, state) {
     else walk.startWalking()
   })
   
+// create a sky
+var createSky = require('voxel-sky')(game)
+
+var sky = createSky(1200)
+game.on('tick', sky)
+
+/*
 //Used for adding trees to the world
-var createTree = require('voxel-forest');
+var createTree = require('voxel-forest')
 for (var i = 0; i < 10; i++) {
-    createTree(game, { bark: 2, leaves: 3 });
+    createTree(game, {bark:1, leaves:2 })
 }
+*/
+
+
+
