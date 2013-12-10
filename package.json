@@ -5,7 +5,6 @@
     "voxel-engine": "~0.18.4",
     "voxel-player": "~0.1.0",
     "voxel-perlin-terrain": "~1.0.0",
-    "voxel-forest": "0.0.1",
     "voxel-walk": "0.0.5",
     "voxel-highlight": "0.0.9",
     "voxel-sky": "~0.2.0"

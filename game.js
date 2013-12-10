@@ -1,46 +1,81 @@
-//this is what gives the world its terrain based on input
-var terrain = require('voxel-perlin-terrain')
-var chunkSize = 32
-
-var seed = prompt("Please enter a word or phrase without spaces")
-// initialize your noise with a seed, floor height, ceiling height and scale factor
-var generateChunk = terrain(seed, 0, 5, 10)
-
-var walk = require('voxel-walk')
-
+//include all of the modules we'll need
+var createTerrain = require('voxel-perlin-terrain');
+var walk = require('voxel-walk');
 //this initializes the voxel engine
-var createEngine = require('voxel-engine')
+var createEngine = require('voxel-engine');
+var highlight = require('voxel-highlight');
 
+var generateChunk;
+var game;
+var createPlayer;
+var player;
+var createSky;
+var sky;
+
+var chunkSize = 32;
+
+var seed;
+var floor;
+var ceiling;
+var scale;
+
+function generate()
+{
+	if(generateChunk != null) generateChunk = null;
+	if(game != null) game = null;
+	if(createPlayer != null) createPlayer = null;
+	if(player != null) player = null;
+	if(createSky != null) createSky = null;
+	if(sky != null) sky = null;
+	$('div').remove();
+	$('canvas').remove();
+	seed = document.getElementById('seed').value;
+	floor = document.getElementById('floor').value;
+	ceiling = document.getElementById('ceiling').value;
+	scale = document.getElementById('scale').value;
+	everythingelse();
+}
+
+function everythingelse()
+{
 //then you call the engine with the options you want to use
-var game = createEngine({
+game = createEngine({
 	generateChunks: false,
 	chunkDistance: 2,
 	texturePath: 'textures/',
 	playerSkin: 'textures/viking.png',
-	materials: [ 'grass_top', 'tree_side', 'leaves_opaque' ],
+	materials: [['grass', 'dirt', 'grass_dirt'], 'tree_side', 'leaves_opaque'],
 	lightsDisabled: true,
-})
-game.appendTo(document.body)
+	fogDisabled: true,
+});
+game.appendTo(document.body);
 
-//Add a player to the world
-var createPlayer = require('voxel-player')(game)
-
-var player = createPlayer('textures/viking.png')
-player.possess()
-player.yaw.position.set(0,10,0)
+// initialize your noise with a seed, floor height, ceiling height and scale factor
+var generateChunk = createTerrain(seed, floor, ceiling, scale)
 
 //this creates more terrain as you move further into the world
 game.voxels.on('missingChunk', function(p) {
-  var voxels = generateChunk(p, chunkSize)
+  var voxels = generateChunk(p, chunkSize);
   var chunk = {
     position: p,
     dims: [chunkSize, chunkSize, chunkSize],
     voxels: voxels
-  }
-  game.showChunk(chunk)
-})
+  };
+  game.showChunk(chunk);
+});
 
-var highlight = require('voxel-highlight')
+//Add a player to the world
+createPlayer = require('voxel-player')(game);
+
+player = createPlayer('textures/viking.png');
+player.possess();
+player.yaw.position.set(0,10,0);
+
+// create a sky
+createSky = require('voxel-sky')(game);
+
+sky = createSky();
+game.on('tick', sky);
 
 // highlight blocks when you look at them, hold <Ctrl> for block placement
   var blockPosPlace, blockPosErase
@@ -50,42 +85,35 @@ var highlight = require('voxel-highlight')
   hl.on('highlight-adjacent', function (voxelPos) { blockPosPlace = voxelPos })
   hl.on('remove-adjacent', function (voxelPos) { blockPosPlace = null })
 
-var target = game.controls.target()
+var target = game.controls.target();
  // block interaction stuff, uses highlight data
-  var currentMaterial = 1
+  var currentMaterial = 1;
 
 game.on('fire', function (target, state) {
-    var position = blockPosPlace
+    var position = blockPosPlace;
     if (position) {
-      game.createBlock(position, currentMaterial)
+      game.createBlock(position, currentMaterial);
     }
     else {
-      position = blockPosErase
-      if (position) game.setBlock(position, 0)
+      position = blockPosErase;
+      if (position) game.setBlock(position, 0);
     }
-  })
+  });
 
   game.on('tick', function() {
-    walk.render(target.playerSkin)
-    var vx = Math.abs(target.velocity.x)
-    var vz = Math.abs(target.velocity.z)
-    if (vx > 0.001 || vz > 0.001) walk.stopWalking()
-    else walk.startWalking()
-  })
+    walk.render(target.playerSkin);
+    var vx = Math.abs(target.velocity.x);
+    var vz = Math.abs(target.velocity.z);
+    if (vx > 0.001 || vz > 0.001) walk.stopWalking();
+    else walk.startWalking();
+  });
   
-// create a sky
-var createSky = require('voxel-sky')(game)
 
-var sky = createSky(1200)
-game.on('tick', sky)
+game.paused = false
 
-/*
-//Used for adding trees to the world
-var createTree = require('voxel-forest')
-for (var i = 0; i < 10; i++) {
-    createTree(game, {bark:1, leaves:2 })
 }
-*/
+
+document.getElementById('gen').addEventListener("click", generate, false); 
 
 
 
