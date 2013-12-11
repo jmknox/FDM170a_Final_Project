@@ -2,13 +2,66 @@
 <html>
 	<head>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"> </script>
+		<script>
+			function update(){
+				var selected = document.getElementById('type')
+				var type = selected.options[selected.selectedIndex].text;
+				if(type == 'Sphere'){
+					$('#sphere').show();
+					$('#perlin').hide();
+					$('#flat').hide();
+					$('#simplex').hide();
+					$('#gen').show();
+				}else if(type == 'Perlin'){
+					$('#sphere').hide();
+					$('#perlin').show();
+					$('#flat').hide();
+					$('#simplex').hide();
+					$('#gen').show();
+				}else if(type == 'Flat'){
+					$('#sphere').hide();
+					$('#perlin').hide();
+					$('#flat').show();
+					$('#simplex').hide();
+					$('#gen').show();
+				}else if(type == 'Simplex'){
+					$('#sphere').hide();
+					$('#perlin').hide();
+					$('#flat').hide();
+					$('#simplex').show();
+					$('#gen').hide();
+				}
+			}
+		</script>
 	</head>	
 	<body>
 		<script src="builtgame.js"></script>
-		Seed: <input type="text" id="seed" value="foo"></input>
-		Floor Height: <input type="text" id="floor" value="0"></input>
-		Ceiling Height: <input type="text" id="ceiling" value="5"></input>
-		Scale Factor: <input type="text" id="scale" value="20"></input>
+		<select id="type" onchange="update()">
+			<option>Sphere</option>
+			<option>Perlin</option>
+			<option>Flat</option>
+			<option>Simplex</option>
+		</select>
+		<span id="sphere">
+			Height: <input type="text" id="sheight" value="20"></input>
+			Width: <input type="text" id="swidth" value="20"></input>
+			Snow: <input type="checkbox" id="ssnow"></input>
+		</span>
+		<span id="perlin" style="display: none;">	
+			Seed: <input type="text" id="pseed" value="foo"></input>
+			Floor Height: <input type="text" id="floor" value="0"></input>
+			Ceiling Height: <input type="text" id="ceiling" value="5"></input>
+			Scale Factor: <input type="text" id="pscale" value="20"></input>
+		</span>
+		<span id="flat" style="display: none;">
+			Snow: <input type="checkbox" id="fsnow"></input>
+		</span>
+		<span id="simplex" style="display: none;">
+			Seed: <input type="text" id="sseed" value="typearandomseed"></input>
+			Scale Factor: <input type="text" id="sscale" value="10"></input>
+			Cube Size: <input type="text" id="cubesize" value="25"></input>
+			Chunk Distance: <input type="text" id="chunkdist" value="2"></input>
+		</span>
 		<input type="button" id="gen" value="Generate!" onclick="runAll()"></input>
 	</body>
 </html>
