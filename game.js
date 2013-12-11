@@ -25,8 +25,8 @@ function generate()
 	if(game != null) game = null;
 	if(createPlayer != null) createPlayer = null;
 	if(player != null) player = null;
-	if(createSky != null) createSky = null;
-	if(sky != null) sky = null;
+	//if(createSky != null) createSky = null;
+	//if(sky != null) sky = null;
 	$('div').remove();
 	$('canvas').remove();
 	seed = document.getElementById('seed').value;
@@ -69,7 +69,7 @@ createPlayer = require('voxel-player')(game);
 
 player = createPlayer('textures/viking.png');
 player.possess();
-player.yaw.position.set(0,10,0);
+player.yaw.position.set(0,25,0);
 
 // create a sky
 createSky = require('voxel-sky')(game);
@@ -113,7 +113,7 @@ game.paused = false
 
 }
 
-document.getElementById('gen').addEventListener("click", generate, false); 
-
+//document.getElementById('gen').addEventListener("click", generate, false); 
+generate();
 
 

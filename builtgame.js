@@ -1,3 +1,5 @@
+function runAll(){
+
 ;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 
 
@@ -5004,8 +5006,8 @@ function generate()
 	if(game != null) game = null;
 	if(createPlayer != null) createPlayer = null;
 	if(player != null) player = null;
-	if(createSky != null) createSky = null;
-	if(sky != null) sky = null;
+	//if(createSky != null) createSky = null;
+	//if(sky != null) sky = null;
 	$('div').remove();
 	$('canvas').remove();
 	seed = document.getElementById('seed').value;
@@ -5048,12 +5050,12 @@ createPlayer = require('voxel-player')(game);
 
 player = createPlayer('textures/viking.png');
 player.possess();
-player.yaw.position.set(0,10,0);
+player.yaw.position.set(0,25,0);
 
 // create a sky
 createSky = require('voxel-sky')(game);
 
-sky = createSky(1800);
+sky = createSky();
 game.on('tick', sky);
 
 // highlight blocks when you look at them, hold <Ctrl> for block placement
@@ -5092,8 +5094,8 @@ game.paused = false
 
 }
 
-document.getElementById('gen').addEventListener("click", generate, false); 
-
+//document.getElementById('gen').addEventListener("click", generate, false); 
+generate();
 
 
 
@@ -51986,3 +51988,4 @@ exports.setAcceleration = function(newA){
 }
 },{}]},{},[18])
 ;
+}
