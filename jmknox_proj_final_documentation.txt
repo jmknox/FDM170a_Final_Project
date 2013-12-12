@@ -1,0 +1,50 @@
+Final Project by Jason Knox
+
+-How This Works-
+Used Voxel.js as the framework for the project. Used node.js and browserify to build the game.
+Coded in notepad++. To play, choose a world type from the drop down menu and edit the world's parameters as you see fit, 
+the click generate, which will create the world. Clicking generate again while playing will reset the world with any 
+changes you have made. The WASD keys are used to move and the mouse looks. Spacebar to jump. Clicking on a highlighted 
+block will destroy it. Holding CRTL and clicking will place a block.
+
+-Concept-
+*More comments about how the code works are in the game.js file*
+This final project was an extension of my project 7, which was a basic voxel.js game. It simply asked for the user to 
+provide a seed that would produce a terrain based on Perlin noise. As I mentioned in my proposal, I believed that the final 
+product would have something to do with world generation. However, I struggled for a while about how I would go about doing 
+that. Additionally, I had responsibilities to my teammates in my Game AI class that distracted me from solving this problem.
+I figured at the very least I should try to flesh out what I already had, as the landscape generated was quite empty. 
+So, most of the process involved taking various modules on the voxel.js website, plugging them into the voxel engine, and
+seeing what worked. The first module I got somewhat working was a sky. While the module provided several options to customize
+the way your sky worked, none of them really worked the way I wanted. For example, I tried to set the sky to a certain time,
+in this case noon, but rather than a blue sky, it came out completely white, and after a minute would turn to nighttime. 
+I decided to not use any options, which got the sky to work correctly, but the game would start at night and thus would
+be hard to see anything until it became day. Later on, I decided to try fixing trees again, but with no luck. The console
+pointed to an error in the compiled code, so I had no way of fixing it. In case I forgot to mention it, when you write your
+code for a voxel.js game you have to build the game so the final javascript that you attach to your html page includes your 
+code and the code for the modules you are using. So while my code was only around 200 lines, the compiled script was over 50,000
+lines. A similar problem occured when I tried to add snow. After not a lot of progress and a looming deadline, I came up with 
+a simple solution to how I would base my project on world generation. I would give even more control to the user about how the 
+world would appear. I removed the prompt when the page loads and added a few text boxes to the top of the page. Then I added a 
+button that would call a function that would starta game based on what was in the text boxes. There were a few issues with my 
+implementation, however. One glitch in particular would break the lighting and cause the sky to flash crazy colors if you tried to 
+generate a new game while one was already running. After unsuccessfully trying to make sure the game variables had reset, I was able 
+to work around this problem by wrapping the whole compiled code in a function that the generate button could call and making sure 
+every single thing was reset. However, I had to do thiseverytime I recompiled my code, which got really annoying. Finally, I decided 
+to add some more functions to generate the world, in addition to the Perlin noise I was already using. I just chose two simple functions 
+I found in the engine's documentation, to generate a flat world and a sphere world. Since the flat world could only appear one way, I
+only added options for the height and width of the sphere world. The new functions gave me an opportunity to try and add trees and snow
+to the game. I was able to get snow working for both of these world types, however trees did not even give an error this time, they just 
+nearly chrashed my browser. Finally, I tried to add a Simplex noise generator as another world type. I managed to get it to work exactly
+one time, however, the way I implemented it affected the other world types. When I moved the Simplex code into it's own if/else block,
+suddenly trying to run a Simplex world would eat all of the browser's memory, even when the parameters were much smaller than the defaults.
+Instead of taking the code out I just disabled the option to generate a Simplex world.     
+
+-Other Notes-
+I feel like a lot of the problems I had while making this project can be attributed to the api. The engine saw its last changes somewhat
+recently, but the majority of the modules had not been updated in months. I noticed many of the examples on the website were running versions
+of the engine that are almost a year old. It's the only way I can explain why even copy/pasting implementation code for some modules did
+not produce the expected results. The amount documentation for the engine and other modules was much lower than I had expected and I could not 
+manage to find any help ouside of the example code for the modules. Lastly, I never got around to adding error checking, so the game would 
+probably break if you put letters in the world options where there should be numbers.
+  
